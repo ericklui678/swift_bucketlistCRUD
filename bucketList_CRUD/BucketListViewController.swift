@@ -28,14 +28,22 @@ class BucketListViewController: UITableViewController, AddItemTableViewControlle
     cell.textLabel?.text = list[indexPath.row]
     return cell
   }
+  // when add button is touched
+  @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+    performSegue(withIdentifier: "updateSegue", sender: nil)
+  }
+  // when accessory button is touched
+  override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    performSegue(withIdentifier: "updateSegue", sender: indexPath)
+  }
   // tell AddItemTableViewController that this is the delegate
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let navigationController = segue.destination as! UINavigationController
     let addItemTableViewController = navigationController.topViewController as! AddItemTableViewController
     addItemTableViewController.delegate = self
     
-    if segue.identifier == "EditItemSegue" {
-      let indexPath = sender as! NSIndexPath
+    if let ip = sender {
+      let indexPath = ip as! NSIndexPath
       let item = list[indexPath.row]
       addItemTableViewController.item = item
       addItemTableViewController.indexPath = indexPath
@@ -53,10 +61,6 @@ class BucketListViewController: UITableViewController, AddItemTableViewControlle
     else { list.append(text) }
     tableView.reloadData()
     dismiss(animated: true, completion: nil)
-  }
-  // when accessory button is touched
-  override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-    performSegue(withIdentifier: "EditItemSegue", sender: indexPath)
   }
   // create delete button
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
