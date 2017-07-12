@@ -12,3 +12,4 @@ protocol AddItemTableViewControllerDelegate: class {
   func cancelButtonPressed(by controller: AddItemTableViewController)
   func addItem(by controller: AddItemTableViewController, with text: String, at indexPath: NSIndexPath?)
 }
+
